@@ -1,14 +1,13 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../routes/routes.dart';
 
 class AuthController extends GetxController {
-
   bool isvisible = false;
 
   bool ismarked = false;
@@ -16,8 +15,10 @@ class AuthController extends GetxController {
   var displayUserName = "";
   var displayUserPhoto = "";
 
-  var googleSignIn = GoogleSignIn();
+  var isSignIn = false;
 
+  var googleSignIn = GoogleSignIn();
+  final GetStorage authBox = GetStorage();
   void visibility() {
     isvisible = !isvisible;
     update();
@@ -27,7 +28,6 @@ class AuthController extends GetxController {
     ismarked = !ismarked;
     update();
   }
-
 
   void signUpUsingFireBase({
     required String name,
@@ -45,9 +45,7 @@ class AuthController extends GetxController {
 
       Get.toNamed(Routes.loginScreen);
     } on FirebaseAuthException catch (e) {
-      String title = e.code
-          .replaceAll(RegExp('-'), ' ')
-          .capitalize!;
+      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = e.message.toString();
 
       if (e.code == 'weak-password') {
@@ -76,23 +74,22 @@ class AuthController extends GetxController {
     }
   }
 
-
   void logInUsingFireBase({
     required String email,
     required String password,
   }) async {
     try {
-      await auth.signInWithEmailAndPassword(
-          email: email,
-          password: password
-      ).then((value) => displayUserName = auth.currentUser!.displayName!);
+      await auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) => displayUserName = auth.currentUser!.displayName!);
+
+      isSignIn = true;
+      authBox.write("auth", isSignIn);
       update();
 
       Get.offNamed(Routes.mainScreen);
     } on FirebaseAuthException catch (e) {
-      String title = e.code
-          .replaceAll(RegExp('-'), ' ')
-          .capitalize!;
+      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
       String message = e.message.toString();
 
       if (e.code == 'user-not-found') {
@@ -118,18 +115,19 @@ class AuthController extends GetxController {
     }
   }
 
-
   void googleSignUpApp() async {
-    try{
+    try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       displayUserName = googleUser!.displayName!;
       displayUserPhoto = googleUser.photoUrl!;
 
+      isSignIn = true;
+      authBox.write("auth", isSignIn);
+
       update();
 
       Get.offNamed(Routes.mainScreen);
-
-    }catch(error){
+    } catch (error) {
       Get.snackbar(
         "Error!",
         error.toString(),
@@ -138,31 +136,26 @@ class AuthController extends GetxController {
         backgroundColor: Colors.blue,
       );
     }
-
   }
 
-  void facebookLogInRegistration()async {
-
+  void facebookLogInRegistration() async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
-
   }
-  void resetPassword(String email)async{
-    try {
 
+  void resetPassword(String email) async {
+    try {
       await auth.sendPasswordResetEmail(email: email);
       update();
 
       print("done");
       // Get.back();
     } on FirebaseAuthException catch (e) {
-      String title = e.code
-          .replaceAll(RegExp('-'),' ')
-          .capitalize!;
-      String message = '' ;
+      String title = e.code.replaceAll(RegExp('-'), ' ').capitalize!;
+      String message = '';
       if (e.code == 'user-not-found') {
         print(' No user found for that email.');
       } else {
-       print( e.message.toString());
+        print(e.message.toString());
       }
       Get.snackbar(
         title,
@@ -182,20 +175,20 @@ class AuthController extends GetxController {
     }
   }
 
-  void logOutFromApp()async {
-
-    try{
+  void logOutFromApp() async {
+    try {
       await auth.signOut();
       await googleSignIn.signOut();
 
-      displayUserPhoto ="";
+      displayUserPhoto = "";
       displayUserName = "";
+
+      isSignIn = false;
+      authBox.remove("auth");
 
       update();
       Get.offNamed(Routes.welcomeScreen);
-
-
-    }catch(error){
+    } catch (error) {
       Get.snackbar(
         "Error!",
         error.toString(),
@@ -204,6 +197,5 @@ class AuthController extends GetxController {
         backgroundColor: Colors.blue,
       );
     }
-
   }
 }

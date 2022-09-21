@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,13 +7,14 @@ import 'package:my_e_commerce/logic/controller/get_storage_controller.dart';
 import 'package:my_e_commerce/routes/routes.dart';
 import 'package:my_e_commerce/view/screens/welcome_screen.dart';
 
+import 'logic/controller/auth_controller.dart';
 import 'utils/theme.dart';
 
-Future main() async{
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await GetStorage.init();
-  await Firebase.initializeApp();
-  
+  await GetStorage.init();
+  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
+
   runApp(MyApp());
 }
 
@@ -26,17 +28,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return   GetMaterialApp(
+    return GetMaterialApp(
       title: 'Bisho Shop',
       debugShowCheckedModeBanner: false,
       theme: ThemesApp.light,
       darkTheme: ThemesApp.dark,
       themeMode: MyStorageController().actualTheme,
-      home: Welcome_Screen(),
-      initialRoute: Routes.welcomeScreen,
+      initialRoute: FirebaseAuth.instance.currentUser != null ||
+              GetStorage().read<bool>("auth") == true
+          ? Routes.mainScreen
+          : AppRoutes.welcomeScreen,
       getPages: AppRoutes.routes,
-
-      );
-
+    );
   }
 }

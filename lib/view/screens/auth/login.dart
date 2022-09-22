@@ -35,7 +35,7 @@ class Login_Screen extends StatelessWidget {
                       Container(
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height / 1.3,
-                        child: Padding(padding:  EdgeInsets.only(left: 25, right: 25 , top: 40),
+                        child: Padding(padding:  EdgeInsets.only(left: 25, right: 25 ,top: 40),
 
                           child: Column(
                             children: [
@@ -127,7 +127,7 @@ class Login_Screen extends StatelessWidget {
                                   color: Get.isDarkMode ? Colors.black : Colors.white,
                                   isUndeLine: false,
                                   fontsize:23),
-                              SizedBox(height: 15,),
+                              SizedBox(height: 5,),
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

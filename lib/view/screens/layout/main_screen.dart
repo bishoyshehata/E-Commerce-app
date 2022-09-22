@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_e_commerce/logic/controller/auth_controller.dart';
 import '../../../logic/controller/main_controllerr.dart';
 import '../../../theme/theme.dart';
 import '../../widgets/text_utils.dart';
@@ -8,7 +7,7 @@ import '../../widgets/text_utils.dart';
 class Main_Screen extends StatelessWidget {
   Main_Screen({Key? key}) : super(key: key);
 
-  final Controller = Get.find<MainController>();
+  final  Controller = Get.find<MainController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Obx(() {

@@ -15,18 +15,18 @@ class Main_Screen extends StatelessWidget {
           backgroundColor: context.theme.backgroundColor,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Get.isDarkMode ? darkGreyClr : mainColor,
+            backgroundColor: Get.isDarkMode ? pinkClr : mainColor,
             actions: [
               IconButton(
                   icon: Icon(Icons.shopping_bag,
-                      color: Get.isDarkMode ? pinkClr : Colors.white),
+                      color:   Colors.white,),
                   onPressed: () {})
             ],
             title: Center(
               child: Text_Utils(
                   fontWeight: FontWeight.bold,
                   text: Controller.Title[Controller.currentIndex.value],
-                  color: Get.isDarkMode ? pinkClr : Colors.white,
+                  color: Get.isDarkMode ? darkGreyClr: Colors.white,
                   isUndeLine: false,
                   fontsize: 27),
             ),

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:my_e_commerce/logic/bindings/product_binding.dart';
 import 'package:my_e_commerce/view/screens/auth/forget_password.dart';
 import 'package:my_e_commerce/view/screens/auth/login.dart';
 import 'package:my_e_commerce/view/screens/auth/sign_up.dart';
@@ -32,7 +33,7 @@ class AppRoutes {
     GetPage(
         name: Routes.mainScreen,
         page: () => Main_Screen(),
-        bindings: [MainBinding(), AuthBinding()]),
+        bindings: [MainBinding(), AuthBinding(),ProductBinding()]),
   ];
 }
 

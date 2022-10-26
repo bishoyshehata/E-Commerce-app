@@ -3,6 +3,7 @@ import 'package:my_e_commerce/logic/bindings/product_binding.dart';
 import 'package:my_e_commerce/view/screens/auth/forget_password.dart';
 import 'package:my_e_commerce/view/screens/auth/login.dart';
 import 'package:my_e_commerce/view/screens/auth/sign_up.dart';
+import 'package:my_e_commerce/view/screens/cart_screen.dart';
 import 'package:my_e_commerce/view/screens/layout/main_screen.dart';
 import 'package:my_e_commerce/view/screens/welcome_screen.dart';
 
@@ -31,9 +32,14 @@ class AppRoutes {
       binding: AuthBinding(),
     ),
     GetPage(
+      name: Routes.cartScreen,
+      page: () => Cart_Screen(),
+      binding: ProductBinding(),
+    ),
+    GetPage(
         name: Routes.mainScreen,
         page: () => Main_Screen(),
-        bindings: [MainBinding(), AuthBinding(),ProductBinding()]),
+        bindings: [MainBinding(), AuthBinding(), ProductBinding()]),
   ];
 }
 
@@ -43,4 +49,5 @@ class Routes {
   static const signupScreen = '/signupScreen';
   static const forgetpasswordScreen = '/forgetpasswordScreen';
   static const mainScreen = '/mainScreen';
+  static const cartScreen = '/cartScreen';
 }

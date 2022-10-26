@@ -1,41 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_e_commerce/logic/controller/product_controller.dart';
-import 'package:my_e_commerce/main.dart';
 import 'package:my_e_commerce/theme/theme.dart';
 import 'package:my_e_commerce/view/widgets/text_utils.dart';
 
 class Card_Items extends StatelessWidget {
-   Card_Items({Key? key}) : super(key: key);
-  final productController = Get.find<Product_Controller>();
+  Card_Items({Key? key}) : super(key: key);
+  final productController = Get.put(Product_Controller(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
-    return Obx((){
-      if(productController.isLoading.value){
-        return  Center(
+    return Obx(() {
+      if (productController.isLoading.value) {
+        return Center(
           child: CircularProgressIndicator(
-            color: Get.isDarkMode ? pinkClr:mainColor,
-
+            color: Get.isDarkMode ? pinkClr : mainColor,
           ),
         );
-      }
-      else{
+      } else {
         return Expanded(
           child: GridView.builder(
               itemCount: productController.productList.length,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   childAspectRatio: 0.8,
                   mainAxisSpacing: 9.0,
                   crossAxisSpacing: 6.0),
               itemBuilder: (contex, index) {
                 return buildCardItems(
-                    image:productController.productList[index].image ,
+                    image: productController.productList[index].image,
                     price: productController.productList[index].price,
                     rating: productController.productList[index].rating.rate,
-                    productId: productController.productList[index].id
-                );
+                    productId: productController.productList[index].id);
               }),
         );
       }
@@ -43,73 +39,68 @@ class Card_Items extends StatelessWidget {
   }
 
   Widget buildCardItems({
-      required  image ,
-      required  price,
-      required  rating,
-    required  productId,
-
+    required image,
+    required price,
+    required rating,
+    required productId,
   }) {
-
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-          BoxShadow(
-              color:Colors.grey.withOpacity(.3),
-              spreadRadius: 3,
-              blurRadius: 5),
-        ]),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(.3),
+                  spreadRadius: 3,
+                  blurRadius: 5),
+            ]),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            Obx((){
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                        IconButton(
-                            onPressed: () {
-                              productController.manageFav(productId);
-                            },
-                            icon: productController.checkIsFav(productId)
-                                ?  Icon(
+            Obx(() {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        productController.manageFav(productId);
+                      },
+                      icon: productController.checkIsFav(productId)
+                          ? const Icon(
                               Icons.favorite,
                               color: Colors.red,
                             )
-                                : Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.black,
-                                    )
-              ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.add,
-                            color: Colors.black))
-                  ],
-                );
-
+                          : const Icon(
+                              Icons.favorite_border,
+                              color: Colors.black,
+                            )),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.add, color: Colors.black))
+                ],
+              );
             }),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Container(
               height: 140,
               width: double.infinity,
               child: Image.network(
-               image,
+                image,
                 fit: BoxFit.fitHeight,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
 
             Padding(
-              padding: const EdgeInsets.only(left: 15,top: 10,right: 15),
+              padding: const EdgeInsets.only(left: 15, top: 10, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -122,7 +113,7 @@ class Card_Items extends StatelessWidget {
                         fontsize: 14),
                   ),
                   Stack(
-                  alignment: Alignment.center,
+                    alignment: Alignment.center,
                     children: [
                       Container(
                         height: 20,
@@ -132,16 +123,20 @@ class Card_Items extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20)),
                       ),
                       Row(
-
                         children: [
                           Text_Utils(
                               fontWeight: FontWeight.bold,
                               text: "$rating",
-                              color:  Colors.white,
+                              color: Colors.white,
                               isUndeLine: false,
                               fontsize: 12),
-                          SizedBox(width: 5,),
-                          Icon(Icons.star,size: 15, color: Colors.white,
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          const Icon(
+                            Icons.star,
+                            size: 15,
+                            color: Colors.white,
                           )
                         ],
                       )

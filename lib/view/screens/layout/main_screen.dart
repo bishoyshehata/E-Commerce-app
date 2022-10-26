@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_e_commerce/routes/routes.dart';
 import '../../../logic/controller/main_controllerr.dart';
 import '../../../theme/theme.dart';
 import '../../widgets/text_utils.dart';
@@ -7,7 +8,7 @@ import '../../widgets/text_utils.dart';
 class Main_Screen extends StatelessWidget {
   Main_Screen({Key? key}) : super(key: key);
 
-  final  Controller = Get.find<MainController>();
+  final Controller = Get.find<MainController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Obx(() {
@@ -17,16 +18,17 @@ class Main_Screen extends StatelessWidget {
             elevation: 0,
             backgroundColor: Get.isDarkMode ? pinkClr : mainColor,
             actions: [
-              IconButton(
-                  icon: Icon(Icons.shopping_bag,
-                      color:   Colors.white,),
-                  onPressed: () {})
+              InkWell(
+                  child: Image.asset("images/shop.png"),
+                  onTap: () {
+                    Get.toNamed(Routes.cartScreen);
+                  })
             ],
             title: Center(
               child: Text_Utils(
                   fontWeight: FontWeight.bold,
                   text: Controller.Title[Controller.currentIndex.value],
-                  color: Get.isDarkMode ? darkGreyClr: Colors.white,
+                  color: Get.isDarkMode ? darkGreyClr : Colors.white,
                   isUndeLine: false,
                   fontsize: 27),
             ),

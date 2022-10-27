@@ -9,6 +9,21 @@ class Product_Controller extends GetxController {
   var productList = <ProductModel>[].obs;
   var FavList = <ProductModel>[].obs;
   final GetStorage storage = GetStorage();
+
+  RxInt itemCounter = 1.obs;
+
+  //===================================Cart Screen =================
+
+  Adding(int itemCounter) {
+    itemCounter = itemCounter + 1;
+  }
+
+  Subtracting(itemCounter) {
+    if (itemCounter >= 1) {
+      itemCounter = itemCounter - 1;
+    }
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
